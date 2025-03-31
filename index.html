@@ -1,61 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Camera Access</title>
-  <style>
-    #video-container {
-      width: 640px;
-      height: 480px;
-      margin: 20px auto;
-      border: 1px solid #ccc;
-      display: none; /* Initially hide the video container */
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minnect - Connect with Influencers and Experts</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        header, footer {
+            text-align: center;
+            padding: 1em;
+            background: #333;
+            color: white;
+        }
 
-    #video-element {
-      width: 100%;
-      height: 100%;
-    }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1em;
+        }
 
-    #access-button {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #error-message{
-      color: red;
-      text-align: center;
-      display: none;
-    }
-  </style>
+        #how-it-works {
+            margin: 20px 0;
+        }
+
+        .question-form {
+            margin: 20px 0;
+        }
+
+        .question-form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        .question-form input, .question-form textarea, .question-form select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        .question-form button {
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .question-form button:hover {
+            background: #0056b3;
+        }
+
+        #video-container {
+            width: 640px;
+            height: 480px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            display: none;
+        }
+
+        #video-element {
+            width: 100%;
+            height: 100%;
+        }
+
+        #access-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #error-message {
+            color: red;
+            text-align: center;
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <button id="access-button">Request Camera Access</button>
-  <div id="video-container">
-    <video id="video-element" autoplay playsinline></video>
-  </div>
-  <div id="error-message"></div>
+    <header>
+        <h1>Minnect</h1>
+        <p>Connect with Influencers and Experts</p>
+    </header>
+    <main>
+        <section id="how-it-works">
+            <h2>How This Works</h2>
+            <p>The goal is to create a platform that helps a common person reach influencers and experts that they previously weren’t able to contact through conventional DM methods.</p>
+            <p>The way this works is that you pay for the questions you want to ask, meaning if you want to ask questions in either text, audio, or video, you have to pay a different amount of money.</p>
+            <p>The experts select what amount they want to set into each way of asking questions, whether that’s in text or audio, or video.</p>
+        </section>
 
-  <script>
-    const videoElement = document.getElementById('video-element');
-    const videoContainer = document.getElementById('video-container');
-    const accessButton = document.getElementById('access-button');
-    const errorMessage = document.getElementById('error-message');
+        <section id="ask-question">
+            <h2>Ask a Question</h2>
+            <form class="question-form">
+                <label for="question-type">Select Question Type:</label>
+                <select id="question-type" name="question-type" required>
+                    <option value="text">Text</option>
+                    <option value="audio">Audio</option>
+                    <option value="video">Video</option>
+                </select>
 
-    accessButton.addEventListener('click', async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        videoElement.srcObject = stream;
-        videoContainer.style.display = 'block'; // Show the video container
-        accessButton.style.display = 'none'; // Hide the button
-        errorMessage.style.display = 'none'; // hide error message
-      } catch (error) {
-        console.error('Error accessing camera:', error);
-        errorMessage.textContent = 'Camera access denied or unavailable.';
-        errorMessage.style.display = 'block';
-      }
-    });
-  </script>
+                <label for="question-content">Your Question:</label>
+                <textarea id="question-content" name="question-content" rows="5" required></textarea>
+
+                <button type="submit">Submit Question</button>
+            </form>
+        </section>
+
+        <section id="video-access">
+            <button id="access-button">Request Camera Access</button>
+            <div id="video-container">
+                <video id="video-element" autoplay playsinline></video>
+            </div>
+            <div id="error-message"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Minnect. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const videoElement = document.getElementById('video-element');
+        const videoContainer = document.getElementById('video-container');
+        const accessButton = document.getElementById('access-button');
+        const errorMessage = document.getElementById('error-message');
+
+        accessButton.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                videoElement.srcObject = stream;
+                videoContainer.style.display = 'block'; // Show the video container
+                accessButton.style.display = 'none'; // Hide the button
+                errorMessage.style.display = 'none'; // hide error message
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                errorMessage.textContent = 'Camera access denied or unavailable.';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        document.querySelector('.question-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Your question has been submitted!');
+        });
+    </script>
 </body>
 </html>
