@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Camera Access</title>
+  <style>
+    #video-container {
+      width: 640px;
+      height: 480px;
+      margin: 20px auto;
+      border: 1px solid #ccc;
+      display: none; /* Initially hide the video container */
+    }
+
+    #video-element {
+      width: 100%;
+      height: 100%;
+    }
+
+    #access-button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #error-message{
+      color: red;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <button id="access-button">Request Camera Access</button>
+  <div id="video-container">
+    <video id="video-element" autoplay playsinline></video>
+  </div>
+  <div id="error-message"></div>
+
+  <script>
+    const videoElement = document.getElementById('video-element');
+    const videoContainer = document.getElementById('video-container');
+    const accessButton = document.getElementById('access-button');
+    const errorMessage = document.getElementById('error-message');
+
+    accessButton.addEventListener('click', async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoElement.srcObject = stream;
+        videoContainer.style.display = 'block'; // Show the video container
+        accessButton.style.display = 'none'; // Hide the button
+        errorMessage.style.display = 'none'; // hide error message
+      } catch (error) {
+        console.error('Error accessing camera:', error);
+        errorMessage.textContent = 'Camera access denied or unavailable.';
+        errorMessage.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
